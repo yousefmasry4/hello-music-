@@ -1,2 +1,35 @@
+.
+..
+.vscode
+2.tmp
 assala.mp3
+clear.py
+clyric.bat
+clyric.tmp
+data structurejodell.txt
+data structurejoprev.txt
+data structurejosn.txt
+dell.txt
+demofile3.txt
+dir.txt
+file.c
+file.exe
+html.bat
+html.tmp
+ly.py
+lyr.bat
+lyric.tmp
+main.bat
+main.cpp
+main.exe
+main.js
+main.tmp
+next.txt
+play.js
+prev.txt
+run.bat
+server.tmp
+sn.txt
+temp.c
+temp.exe
 the moon.mp3

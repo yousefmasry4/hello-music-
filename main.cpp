@@ -46,27 +46,21 @@ void insertEnd(struct Node** start,char value[30])
     // Make new node next of old last 
     last->next = new_node; 
 } 
-Node* next(struct Node* start) 
+void next(struct Node* start) 
 { 
-    Node*temp=start;
-    temp=temp->next; 
-    start=temp;
-    printf("i will send %s\n",start->data);
-    return start;
+    start=start->next; 
 } 
-Node* prevfun(struct Node* start) 
+void prevfun(struct Node* start) 
 { 
     start=start->prev; 
-    return start; 
-
 } 
-Node* dell(struct Node *& start) 
+int dell(struct Node *& start) 
 { 
     if (start == NULL) 
-        return 0; 
+        return 3; 
     if(start == start->next){
-        puts("error you can't dell it");
-        return start;
+        free(start);
+        return 3;
     }
     struct Node *curr = start;
     struct Node *temp = start;
@@ -75,160 +69,91 @@ Node* dell(struct Node *& start)
     temp->next=start;
     start->prev=temp;
     free(curr);
-    return start;
+    return 1;
 } 
 
   //driver***************************************************************************************************************************************
 int main()
 {
-    printf("main  function***************");
     struct Node* start = NULL; 
     char e[30];
     FILE *q;
     q = fopen("dir.txt", "r");
-    if ( q != NULL )
-    {
-      char line [ 30 ]; /* or other suitable maximum line size */
-      while ( fgets ( line, sizeof line, q ) != NULL ) /* read a line */
-      {
-         fputs ( line, stdout ); /* write the line */
-         insertEnd(&start,line);
-      }
-      fclose ( q );
-   }
-   else
-   {
-      perror ("dir.txt"); /* why didn't the file open? */
-   }
-/*
-
     do
     {
-        fscanf(q," %s", e);
+        fscanf(q,"%s", e);
         insertEnd(&start,e);
     }
     while(!feof(q));
     fclose(q);
-    */
-    char off[1]={'0'};
     while(1){
       //  puts("run");
         FILE *a,*p,*c,*sn;
-        FILE *aw,*pw,*cw,*snw;
-        a = fopen("next.txt", "r");//next   
+        a = fopen("next.txt", "r");//next
         p = fopen("prev.txt", "r");//prev
         c = fopen("dell.txt", "r");//dell
         sn = fopen("sn.txt", "r");//name
-        /*
-       
-
-
-
+        FILE *aw,*pw,*cw,*snw;
+        aw = fopen("next.txt", "w");//next
+        pw = fopen("prev.txt", "w");//prev
+        cw = fopen("dell.txt", "w");//dell
+        snw = fopen("sn.txt", "w");//name
         if (p == NULL ||c == NULL||sn == NULL||a == NULL )
         {
             puts("Error while opening the file.\n");
+            exit(0);
         }
         /*stop here*/
+        int temp=0;
         char stemp[100];
         do
         {
             fscanf(a,"%s",stemp);
         }
         while(!feof(a));
+        puts("file eqq");
+        printf("==%s\n",stemp);
         fclose(a);
-
-        if(strcmp(stemp,"1") == 0){
+        if(temp == 1){
             puts("next action");
-            start=next(start);
-            aw = fopen("next.txt", "w");//next
-            if(aw == NULL)
-            {
-                printf("Error! 1");   
-                exit(1);             
-            }
-            fprintf(aw,"%s","0");
+            next(start);
+            fprintf(aw,0);
             fclose(aw);
-            snw = fopen("sn.txt", "w");//name
-            if(snw == NULL)
-            {
-                printf("Error! 2");   
-                exit(1);             
-            }
-            fprintf(snw,"%s",start->data);
-            printf("%s",start->data);
+            fprintf(snw,start->data);
             fclose(snw);
+            continue;
         }
-        /***********************************************/
-        char stemp2[100];
-        do
-        {
-            fscanf(p,"%s",stemp2);
-        }
-        while(!feof(p));
+        temp=0;
+        fscanf(p,"%d",temp);
         fclose(p);
-
-        if(strcmp(stemp2,"1") == 0){
-            puts("[*]prev");
-            start=prevfun(start);
-            pw = fopen("prev.txt", "w");//prev
-            if(pw == NULL)
-            {
-                printf("Error! prev.txt not found");   
-                exit(1);             
-            }
-            fprintf(pw,"%s","0");
+        if(temp == 1){
+            prevfun(start);
+            fprintf(pw,0);
             fclose(pw);
-            snw = fopen("sn.txt", "w");//name
-            if(snw == NULL)
-            {
-                printf("Error! 2");   
-                exit(1);             
-            }
-            fprintf(snw,"%s",start->data);
-            printf("%s",start->data);
+            fprintf(snw,start->data);
             fclose(snw);
+            continue;
         }
-/**************************************************/
-        char stemp3[100];
-        do
-        {
-            fscanf(c,"%s",stemp3);
-        }
-        while(!feof(c));
+        temp=0;
+        fscanf(c,"%d",&temp);
+        printf("%d",temp);
+        break;
         fclose(c);
-
-        if(strcmp(stemp3,"1") == 0){
-            puts("[*]dell");
-            start=dell(start);
-            if(strcasecmp(start->data,"0")!=0){
-                cw = fopen("dell.txt", "w");//dell
-                if(cw == NULL)
-                {
-                    printf("Error! prev.txt not found");   
-                    exit(1);             
-                }
-                fprintf(cw,"%s","0");
-                fclose(cw);
-                snw = fopen("sn.txt", "w");//name
-                if(snw == NULL)
-                {
-                    printf("Error! 2");   
-                    exit(1);             
-                }
-                fprintf(snw,"%s",start->data);
-                printf("%s",start->data);
+        if(temp == 1){
+            printf("dell");
+            int c=dell(start);
+            if(c==3){
+                //null;
+                fprintf(snw,"404 error");
                 fclose(snw);
             }else{
-                puts("404 error");
-                snw = fopen("sn.txt", "w");//name
-                if(snw == NULL)
-                {
-                    printf("Error! 2");   
-                    exit(1);             
-                }
-                fprintf(snw,"%s","404 error");
+                fprintf(snw,start->data);
                 fclose(snw);
             }
+            fprintf(cw,0);
+            fclose(cw);
+            continue;
         }
+
     }
 }

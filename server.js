@@ -72,5 +72,4 @@ io.on("connection", function(socket) {
         };
     });
 });
-
 console.log("Open Url - http://localhost:3000");
